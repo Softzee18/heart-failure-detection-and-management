@@ -121,7 +121,7 @@ const AddPatient = ({ setPatients, setStats, stats }) => {
 
     try {
       const response = await fetch(
-        "https://heart-failure-predict-1.onrender.com/api/assess",
+        "https://heart-failure-detection-ml-model.onrender.com/api/assess",
         {
           method: "POST",
           headers: {
@@ -834,3 +834,4 @@ const AddPatient = ({ setPatients, setStats, stats }) => {
 };
 
 export default AddPatient;
+

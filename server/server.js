@@ -25,33 +25,65 @@
 //   }
 // });
 
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-dotenv.config();
+// const express = require("express");
+// const cors = require("cors");
+// const dotenv = require("dotenv");
+// dotenv.config();
 
-const myRouter = require("./src/routes/myRouter");
-const connectDB = require("./src/config/connectDB");
+// const myRouter = require("./src/routes/myRouter");
+// const connectDB = require("./src/config/connectDB");
+
+// const app = express();
+// const port = process.env.PORT || 3000;
+
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(cors());
+// app.use("/api", myRouter);
+
+// // Start server ONLY after DB connects
+// async function startServer() {
+//   try {
+//     await connectDB();
+//     app.listen(port, () => {
+//       console.log(`Server is running on port ${port}`);
+//     });
+//   } catch (error) {
+//     console.error("Failed to start server:", error);
+//     process.exit(1);
+//   }
+// }
+
+// startServer();
+
+
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+// const socketData = require("./src/routes/socket.route");
 
 const app = express();
+app.use(cors());
+app.use(express.json());
+
 const port = process.env.PORT || 3000;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-app.use("/api", myRouter);
+app.get("/", (req, res) => {
+  res.status(200).send("Hello, welcome to backend");
+});
 
-// Start server ONLY after DB connects
-async function startServer() {
-  try {
-    await connectDB();
+// app.use("/data", socketData);
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("connected to database");
     app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
+      console.log(`server started on port: ${port}`);
     });
-  } catch (error) {
-    console.error("Failed to start server:", error);
-    process.exit(1);
-  }
-}
+  })
+  .catch(() => {
+    console.log("error connecting to database");
+  });
 
-startServer();

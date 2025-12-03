@@ -62,6 +62,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 // const socketData = require("./src/routes/socket.route");
+const myRouter = require("./src/routes/myRouter");
 
 const app = express();
 app.use(cors());
@@ -73,7 +74,7 @@ app.get("/", (req, res) => {
   res.status(200).send("Hello, welcome to backend");
 });
 
-// app.use("/data", socketData);
+app.use("/api", myRouter);
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -86,4 +87,5 @@ mongoose
   .catch(() => {
     console.log("error connecting to database");
   });
+
 
